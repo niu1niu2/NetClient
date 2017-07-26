@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/GuinongClient.iml" filepath="$PROJECT_DIR$/GuinongClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/guinongclientnet/guinongclientnet.iml" filepath="$PROJECT_DIR$/guinongclientnet/guinongclientnet.iml" />
+    </modules>
+  </component>
+</project>
