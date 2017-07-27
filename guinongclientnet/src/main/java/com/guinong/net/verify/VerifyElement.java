@@ -1,9 +1,9 @@
 package com.guinong.net.verify;
 
 import com.guinong.net.verify.annotation.AnnotationUtils;
-import com.guinong.net.verify.check.EmailFormatCkeck;
+import com.guinong.net.verify.check.EmailFormatCheck;
 import com.guinong.net.verify.check.IValueCheck;
-import com.guinong.net.verify.check.MobilePhoneCkeck;
+import com.guinong.net.verify.check.MobilePhoneCheck;
 import com.guinong.net.verify.check.NotNullCheck;
 import com.guinong.net.verify.check.NumberRangeCheck;
 import com.guinong.net.verify.check.StringLengthCheck;
@@ -56,9 +56,9 @@ public class VerifyElement {
                 }else if(ann instanceof StringLength){
                     this.elementSet.add(new Element(ann, new StringLengthCheck()));
                 }else if(ann instanceof MobilePhoneFormat){
-                    this.elementSet.add(new Element(ann, new MobilePhoneCkeck()));
+                    this.elementSet.add(new Element(ann, new MobilePhoneCheck()));
                 }else if(ann instanceof EmailFormat){
-                    this.elementSet.add(new Element(ann, new EmailFormatCkeck()));
+                    this.elementSet.add(new Element(ann, new EmailFormatCheck()));
                 }
             }
         }

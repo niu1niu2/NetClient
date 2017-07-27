@@ -13,7 +13,7 @@ import java.lang.reflect.Field;
  * @time 2017/7/27 0027 on 上午 11:36
  * @desc
  */
-public class MobilePhoneCkeck  extends ValueCheck{
+public class MobilePhoneCheck extends ValueCheck{
 
 
     @Override

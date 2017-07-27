@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
  * @time 2017/7/27 0027 on 下午 13:43
  * @desc
  */
-public class EmailFormatCkeck extends ValueCheck{
+public class EmailFormatCheck extends ValueCheck{
 
     @Override
     public void validate(Field field, Annotation annotation, Object value) {
