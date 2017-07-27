@@ -1,6 +1,7 @@
 # GuinongClient2    网络封装客户端
 ## 基于Okhttp
-使用方法allprojects {
+使用方法:
+allprojects {
 		repositories {
 			...
 			maven { url 'https://jitpack.io' }
