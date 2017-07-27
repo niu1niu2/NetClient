@@ -22,33 +22,19 @@ import okhttp3.OkHttpClient;
  * @content
  */
 public class TestClient extends RequestClient {
-    private static OkHttpClient mOkHttpClient = null;
-    private static final int TIME_OUT = 35;
 
-    static {
-        OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
-        okHttpClientBuilder.connectTimeout(TIME_OUT, TimeUnit.SECONDS);
-        okHttpClientBuilder.writeTimeout(TIME_OUT, TimeUnit.SECONDS);
-        okHttpClientBuilder.readTimeout(TIME_OUT, TimeUnit.SECONDS);
-        okHttpClientBuilder.followRedirects(true); //设置重定向 其实默认也是true
-        okHttpClientBuilder.hostnameVerifier(new HostnameVerifier() {
-            @Override
-            public boolean verify(String s, SSLSession sslSession) {
-                return true;
-            }
-        });
-        //  okHttpClientBuilder.sslSocketFactory(HttpsUtils.initSSLSocketFactory(), HttpsUtils.initTrustManager());
-        mOkHttpClient = okHttpClientBuilder.build();
-    }
 
     public static final String SERVER_URL = "http://dev.guinong.com:8810/";
 
-    @Override
-    protected OkHttpClient getHttpClient() {
-        return mOkHttpClient;
+
+    public TestClient() {
+        this.setUnitTest(true);
     }
 
+
     /**
+     * 这是对象型  也就是result中的数据是list类型
+     *
      * @param request
      * @param callback
      * @param userState
@@ -61,6 +47,8 @@ public class TestClient extends RequestClient {
     }
 
     /**
+     * 这是对象型  也就是result中的数据是对象型
+     *
      * @param request
      * @param callback
      * @param userState

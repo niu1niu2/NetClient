@@ -37,14 +37,16 @@ public class NetworkJsonCallback implements Callback {
     private final Gson gson;
 
     /**
+     *
+     * @param isUnitTest
      * @param gson
      * @param asyncResultCallback
      * @param userState
      */
-    public NetworkJsonCallback(Gson gson, IAsyncMessageCallback asyncResultCallback, Object userState) {
+    public NetworkJsonCallback(boolean isUnitTest, Gson gson, IAsyncMessageCallback asyncResultCallback, Object userState) {
         this.gson = gson;
         this.callback = asyncResultCallback;
-        if (RequestClient.isUnitTest) {
+        if (isUnitTest) {
             this.handler = null;
         } else {
             this.handler = new Handler(Looper.getMainLooper());

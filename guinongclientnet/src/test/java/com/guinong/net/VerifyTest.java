@@ -4,9 +4,6 @@ import com.guinong.net.callback.IAsyncEmptyCallback;
 import com.guinong.net.callback.IAsyncResultCallback;
 import com.guinong.net.test.model.OrderInfo;
 import com.guinong.net.test.model.HomeRequest;
-import com.guinong.net.test.model.Student;
-import com.guinong.net.test.model.bean.Cart;
-import com.guinong.net.test.model.bean.HomeBean;
 import com.guinong.net.test.model.bean.ResultBean2;
 import com.guinong.net.verify.VerifyManager;
 
@@ -27,31 +24,38 @@ public class VerifyTest {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setId("1234");
         orderInfo.setName("张三");
-
         VerifyManager.validate(orderInfo);
-
     }
 
-    @Test
-    public void stringLengthTest() {
-        Student student = new Student();
-        student.setName("王宇00000");
-        student.setPhone("18089697084");
-        student.setEmail("1093532669@qq.com");
-        VerifyManager.validate(student);
+    private void doSleep(){
+        synchronized (this){
+            try {
+                Thread.sleep(1000);
+                if(isWait){
+                    doSleep();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
+    private boolean isWait = false;
 
+    /**
+     * 这是result中的是list数据
+     */
     @Test
-    public void homeTest() {
+    public void homeTestList() {
         HomeRequest pars = new HomeRequest();
-        pars.setPageId(4);
+        pars.setPageId(-1);
         TestClient test = new TestClient();
+        isWait = true;
         test.homeData(pars, new IAsyncResultCallback<List<ResultBean2>>() {
             @Override
             public void onComplete(List<ResultBean2> items, Object userState) {
                 if (items == null) {
-
+                    isWait =false;
                 }
             }
 
@@ -61,17 +65,19 @@ public class VerifyTest {
                 if (error == null) {
 
                 }
+                isWait =false;
             }
         }, null);
-        try {
-            Thread.sleep(1000 * 60);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+        doSleep();
+
     }
 
+    /**
+     * result中是单个对象的
+     */
     @Test
-    public void homeTest2() {
+    public void homeTestMode() {
         HomeRequest pars = new HomeRequest();
         pars.setPageId(4);
         TestClient test = new TestClient();
@@ -86,16 +92,16 @@ public class VerifyTest {
 
             @Override
             public void onComplete(Object userState) {
-                if(userState!=null){
+                if (userState != null) {
 
                 }
             }
         }, 5896665);
+
         try {
             Thread.sleep(1000 * 60);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 }

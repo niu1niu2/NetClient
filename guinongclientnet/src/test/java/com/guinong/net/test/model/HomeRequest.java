@@ -1,5 +1,7 @@
 package com.guinong.net.test.model;
 
+import com.guinong.net.verify.NumberRange;
+
 import java.io.Serializable;
 
 /**
@@ -9,9 +11,8 @@ import java.io.Serializable;
  */
 public class HomeRequest implements Serializable {
 
-
+    @NumberRange(maxValue =3,friendlyName = "页号",minValue = 0)
     private int pageId;
-
 
     public int getPageId() {
         return pageId;
