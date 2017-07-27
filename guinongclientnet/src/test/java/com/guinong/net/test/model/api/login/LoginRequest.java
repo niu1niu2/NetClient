@@ -8,6 +8,15 @@ package com.guinong.net.test.model.api.login;
 public class LoginRequest {
     private String userName;
     private String password;
+    private String imgcode;
+
+    public String getImgcode() {
+        return imgcode;
+    }
+
+    public void setImgcode(String imgcode) {
+        this.imgcode = imgcode;
+    }
 
     public String getUserName() {
         return userName;
