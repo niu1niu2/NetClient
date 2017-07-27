@@ -4,6 +4,7 @@ import com.guinong.net.callback.IAsyncEmptyCallback;
 import com.guinong.net.callback.IAsyncResultCallback;
 import com.guinong.net.test.model.OrderInfo;
 import com.guinong.net.test.model.HomeRequest;
+import com.guinong.net.test.model.Student;
 import com.guinong.net.test.model.bean.Cart;
 import com.guinong.net.test.model.bean.HomeBean;
 import com.guinong.net.test.model.bean.ResultBean2;
@@ -32,6 +33,16 @@ public class VerifyTest {
     }
 
     @Test
+    public void stringLengthTest() {
+        Student student = new Student();
+        student.setName("王宇00000");
+        student.setPhone("18089697084");
+        student.setEmail("1093532669@qq.com");
+        VerifyManager.validate(student);
+    }
+
+
+    @Test
     public void homeTest() {
         HomeRequest pars = new HomeRequest();
         pars.setPageId(4);
@@ -52,13 +63,11 @@ public class VerifyTest {
                 }
             }
         }, null);
-
         try {
             Thread.sleep(1000 * 60);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 
     @Test
@@ -82,7 +91,6 @@ public class VerifyTest {
                 }
             }
         }, 5896665);
-
         try {
             Thread.sleep(1000 * 60);
         } catch (InterruptedException e) {

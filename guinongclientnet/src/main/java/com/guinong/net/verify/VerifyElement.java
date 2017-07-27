@@ -1,9 +1,12 @@
 package com.guinong.net.verify;
 
 import com.guinong.net.verify.annotation.AnnotationUtils;
+import com.guinong.net.verify.check.EmailFormatCkeck;
 import com.guinong.net.verify.check.IValueCheck;
+import com.guinong.net.verify.check.MobilePhoneCkeck;
 import com.guinong.net.verify.check.NotNullCheck;
 import com.guinong.net.verify.check.NumberRangeCheck;
+import com.guinong.net.verify.check.StringLengthCheck;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -50,6 +53,12 @@ public class VerifyElement {
                     this.elementSet.add(new Element(ann, new NotNullCheck()));
                 } else if (ann instanceof NumberRange) {
                     this.elementSet.add(new Element(ann, new NumberRangeCheck()));
+                }else if(ann instanceof StringLength){
+                    this.elementSet.add(new Element(ann, new StringLengthCheck()));
+                }else if(ann instanceof MobilePhoneFormat){
+                    this.elementSet.add(new Element(ann, new MobilePhoneCkeck()));
+                }else if(ann instanceof EmailFormat){
+                    this.elementSet.add(new Element(ann, new EmailFormatCkeck()));
                 }
             }
         }

@@ -24,4 +24,6 @@ public @interface MobilePhoneFormat {
      * @return
      */
     String errorMessage() default "";
+
+    int Length() default 11;
 }
