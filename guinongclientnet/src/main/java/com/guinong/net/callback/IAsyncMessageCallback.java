@@ -1,6 +1,5 @@
 package com.guinong.net.callback;
 
-import com.guinong.net.NetworkMessage;
 import com.guinong.net.NetworkResultMessage;
 
 /**

@@ -41,9 +41,7 @@ public class TestClient extends RequestClient {
      * @return
      */
     public IAsyncRequestState homeData(HomeRequest request, IAsyncResultCallback<List<ResultBean2>> callback, Object userState) {
-        return apiPostRequest(new TypeToken<List<ResultBean2>>() {
-                }.getType(), SERVER_URL + "api/AppSettingManager/GetPageData",
-                request, callback, userState);
+        return apiPostRequest(new TypeToken<List<ResultBean2>>() {}.getType(), SERVER_URL + "api/AppSettingManager/GetPageData", request, callback, userState);
     }
 
     /**

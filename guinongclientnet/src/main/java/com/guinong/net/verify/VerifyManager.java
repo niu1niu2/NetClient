@@ -2,7 +2,6 @@ package com.guinong.net.verify;
 
 import com.guinong.net.ExceptionUtils;
 import com.guinong.net.verify.check.IModelCheck;
-
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -66,6 +65,4 @@ public class VerifyManager {
         }
         return elSet;
     }
-
-
 }

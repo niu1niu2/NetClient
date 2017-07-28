@@ -2,24 +2,17 @@ package com.guinong.net.callback;
 
 import android.os.Handler;
 import android.os.Looper;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import com.guinong.net.CodeContant;
 import com.guinong.net.NetworkErrorInfo;
 import com.guinong.net.NetworkException;
 import com.guinong.net.NetworkMessage;
 import com.guinong.net.NetworkResultMessage;
-import com.guinong.net.RequestClient;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
-import java.lang.reflect.Type;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -71,10 +64,10 @@ public class NetworkJsonCallback implements Callback {
     public void onFailure(Call call, IOException e) {
         if (call.isCanceled()) {
             //用户主动取消
-            postException(new NetworkException(-10000, e.getMessage(), null, e));
+            postException(new NetworkException(CodeContant.CODE_USER_CANCEL, e.getMessage(), null, e));
         } else {
             //服务器异常
-            postException(new NetworkException(-999, e.getMessage(), null, e));
+            postException(new NetworkException(CodeContant.CODE_SERVER_EXCEPTION, e.getMessage(), null, e));
         }
     }
 
@@ -83,14 +76,14 @@ public class NetworkJsonCallback implements Callback {
         String result = response.body().string();
         if (result == null || result.trim().length() == 0) {
             //返回的数据错误
-            postException(new NetworkException(-588, "format error ", null, null));
+            postException(new NetworkException(CodeContant.CODE_DATA_EXCEPTION, "format error ", null, null));
             return;
         }
         try {
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
             if (!element.isJsonObject()) {
-                postException(new NetworkException(-588, "format error ", null, null));
+                postException(new NetworkException(CodeContant.CODE_DATA_EXCEPTION, "format error ", null, null));
                 return;
             }
             JsonObject jsonObject = (JsonObject) element;
@@ -100,7 +93,7 @@ public class NetworkJsonCallback implements Callback {
                 NetworkErrorInfo errorInfo = msg.getError();
                 if (errorInfo == null) {
                     errorInfo = new NetworkErrorInfo();
-                    errorInfo.setCode(0);
+                    errorInfo.setCode(CodeContant.CODE_UNKNOWN);
                     errorInfo.setMessage("未知异常");
                 }
                 postException(new NetworkException(msg.getError().getCode(), errorInfo.getMessage(), errorInfo.getDetail(), null));
@@ -120,7 +113,7 @@ public class NetworkJsonCallback implements Callback {
             }
         } catch (JsonSyntaxException e) {
             //不是标准的json数据
-            postException(new NetworkException(-588, "server json format error ", e.getMessage(), e));
+            postException(new NetworkException(CodeContant.CODE_DATA_EXCEPTION, "server json format error ", e.getMessage(), e));
             return;
         }
     }
