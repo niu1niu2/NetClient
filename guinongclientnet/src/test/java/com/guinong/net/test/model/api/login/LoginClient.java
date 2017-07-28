@@ -5,9 +5,6 @@ import com.guinong.net.RequestClient;
 import com.guinong.net.callback.IAsyncResultCallback;
 import com.guinong.net.request.IAsyncRequestState;
 import com.guinong.net.test.model.api.Constant;
-import com.guinong.net.test.model.bean.ResultBean2;
-
-import java.util.List;
 
 /**
  * @author csn
@@ -20,8 +17,21 @@ public class LoginClient extends RequestClient {
     }
 
     public IAsyncRequestState loginRequest(LoginRequest request, IAsyncResultCallback<LoginRespon> callback, Object userState) {
-        return apiGetRequest(new TypeToken<List<ResultBean2>>() {
+        return apiGetRequest(new TypeToken<LoginRespon>() {
                 }.getType(), Constant.SERVER_URL + Constant.LOGIN,
+                request, callback, userState);
+    }
+
+    /**
+     * 登录验证码
+     * @param request
+     * @param callback
+     * @param userState
+     * @return
+     */
+    public IAsyncRequestState loginImageCodeRequest(LoginImageCodeRequest request, IAsyncResultCallback<LoginRespon> callback, Object userState) {
+        return apiGetRequest(new TypeToken<LoginRespon>() {
+                }.getType(), Constant.SERVER_URL + Constant.LOGIN_IMAGE_CODE,
                 request, callback, userState);
     }
 

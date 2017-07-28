@@ -82,7 +82,6 @@ public abstract class RequestClient {
     }
 
 
-
     /**
      * api 调用请求
      *
@@ -149,22 +148,25 @@ public abstract class RequestClient {
             f.setAccessible(true);
             Object val = new Object();
             String temp = "&";
-            if (i == fields.length-1) {
+            if (i == fields.length - 1) {
                 temp = "";
             }
             try {
+
                 val = f.get(model);
-                urlBuilder.append(f.getName()).append("=")
-                        .append(val)
-                        .append(temp);
-                // 得到此属性的值
+                if (val != null) {
+                    urlBuilder.append(f.getName()).append("=")
+                            .append(val)
+                            .append(temp);
+                    // 得到此属性的值
+                }
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
-        return new Request.Builder().url(urlBuilder.substring(0, urlBuilder.length() - 1)).get().build();
+        return new Request.Builder().url(urlBuilder.substring(0, urlBuilder.length())).get().build();
     }
 
     /**
