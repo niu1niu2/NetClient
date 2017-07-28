@@ -5,16 +5,9 @@ import com.guinong.net.callback.IAsyncEmptyCallback;
 import com.guinong.net.callback.IAsyncResultCallback;
 import com.guinong.net.request.IAsyncRequestState;
 import com.guinong.net.test.model.HomeRequest;
-import com.guinong.net.test.model.bean.HomeBean;
 import com.guinong.net.test.model.bean.ResultBean2;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLSession;
-
-import okhttp3.OkHttpClient;
 
 /**
  * @author csn

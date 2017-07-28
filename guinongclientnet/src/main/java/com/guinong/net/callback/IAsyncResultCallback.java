@@ -1,7 +1,5 @@
 package com.guinong.net.callback;
 
-import com.guinong.net.NetworkMessage;
-
 /**
  * @author csn
  * @date 2017/7/25 0025 19:11
