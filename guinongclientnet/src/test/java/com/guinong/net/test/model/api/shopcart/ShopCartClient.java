@@ -17,6 +17,7 @@ import java.util.List;
  */
 public class ShopCartClient extends RequestClient {
     public ShopCartClient() {
+        super(null);
         this.setUnitTest(true);
     }
 

@@ -11,7 +11,7 @@ import com.guinong.net.callback.IAsyncResultCallback;
  * @content
  */
 public class LoginTest {
-    LoginClient client = new LoginClient(AppLication.context);
+    LoginClient client = new LoginClient();
 
 
     /**

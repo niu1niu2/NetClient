@@ -81,6 +81,7 @@ public class VerifyTest {
         HomeRequest pars = new HomeRequest();
         pars.setPageId(4);
         TestClient test = new TestClient();
+
         test.homeData2(pars, new IAsyncEmptyCallback() {
 
             @Override

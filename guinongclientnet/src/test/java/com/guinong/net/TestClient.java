@@ -21,6 +21,7 @@ public class TestClient extends RequestClient {
 
 
     public TestClient() {
+        super(null);
         this.setUnitTest(true);
     }
 

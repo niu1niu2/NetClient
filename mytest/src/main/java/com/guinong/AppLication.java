@@ -3,6 +3,8 @@ package com.guinong;
 import android.app.Application;
 import android.content.Context;
 
+import com.guinong.api.ApiClient;
+
 /**
  * @author csn
  * @date 2017/7/28 0028 10:04
@@ -15,5 +17,6 @@ public class AppLication extends Application {
     public void onCreate() {
         super.onCreate();
         this.context = getApplicationContext();
+        ApiClient.contextInit(context);
     }
 }

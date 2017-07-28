@@ -13,6 +13,7 @@ import com.guinong.net.test.model.api.Constant;
  */
 public class LoginClient extends RequestClient {
     public LoginClient() {
+        super(null);
         this.setUnitTest(true);
     }
 

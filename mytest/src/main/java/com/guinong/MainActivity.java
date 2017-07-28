@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
+        test.login();
     }
 
 
@@ -26,10 +26,16 @@ public class MainActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.test:
                 test.login();
+
                 break;
             case R.id.test1:
                 test.getShopCartData();
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

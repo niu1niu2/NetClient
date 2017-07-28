@@ -1,15 +1,11 @@
 package com.guinong.login;
 
-import android.test.mock.MockContext;
-
 import com.guinong.AppLication;
 import com.guinong.net.NetworkException;
 import com.guinong.net.callback.IAsyncResultCallback;
-import com.guinong.shopcart.ShopCartClient;
-import com.guinong.shopcart.ShopCartRequest;
+import com.guinong.net.request.AsyncRequestState;
+import com.guinong.net.request.IAsyncRequestState;
 import com.guinong.shopcart.ShopCartRespon;
-
-import java.util.List;
 
 
 /**
@@ -18,23 +14,20 @@ import java.util.List;
  * @content
  */
 public class LoginTest {
-    LoginClient client = new LoginClient(AppLication.context);
-
+    LoginClient client = new LoginClient();
 
     /**
      * 测试登录
      */
-
     public void login() {
         LoginRequest request = new LoginRequest();
         request.setUserName("18089697084");
         request.setPassword("wy235479");
         request.setImgcode("4630");
-        client.loginRequest(request, new IAsyncResultCallback<LoginRespon>() {
+         client.loginRequest(request, new IAsyncResultCallback<LoginRespon>() {
             @Override
             public void onComplete(LoginRespon loginRespon, Object userState) {
                 if (loginRespon != null) {
-
                 }
             }
 
@@ -44,10 +37,11 @@ public class LoginTest {
             }
         }, 1);
 
+
     }
 
     public void getShopCartData() {
-        client.shopCartData(new ShopCartRequest(), new IAsyncResultCallback<ShopCartRespon>() {
+        client.shopCartData(new IAsyncResultCallback<ShopCartRespon>() {
             @Override
             public void onComplete(ShopCartRespon shopCartRespons, Object userState) {
                 if (shopCartRespons != null) {
@@ -78,10 +72,5 @@ public class LoginTest {
                 error.getDetail();
             }
         }, "2");
-        try {
-            Thread.sleep(1000 * 60);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }

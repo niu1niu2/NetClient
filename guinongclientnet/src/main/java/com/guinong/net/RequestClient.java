@@ -1,7 +1,5 @@
 package com.guinong.net;
 
-import android.content.Context;
-
 import com.google.gson.Gson;
 import com.guinong.net.callback.AsyncEmptyCallbackHandle;
 import com.guinong.net.callback.AsyncResultCallbackHandle;
@@ -10,17 +8,12 @@ import com.guinong.net.callback.IAsyncEmptyCallback;
 import com.guinong.net.callback.IAsyncMessageCallback;
 import com.guinong.net.callback.IAsyncResultCallback;
 import com.guinong.net.callback.NetworkJsonCallback;
-import com.guinong.net.cookie.CookierManager;
 import com.guinong.net.request.AsyncRequestState;
 import com.guinong.net.request.IAsyncRequestState;
 import com.guinong.net.verify.VerifyManager;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import java.util.concurrent.TimeUnit;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLSession;
 
 import okhttp3.Call;
 import okhttp3.MediaType;
@@ -34,18 +27,15 @@ import okhttp3.RequestBody;
  * @content
  */
 public abstract class RequestClient {
-    protected static OkHttpClient mOkHttpClient = null;
-    private static final int TIME_OUT = 35;
-    private static Context context;
     /**
      *
      */
     public static final MediaType APPLICATION_JSON = MediaType.parse("application/json; charset=utf-8");
-
-
-    protected OkHttpClient getHttpClient() {
-        return mOkHttpClient;
-    }
+    /**
+     *
+     * @return
+     */
+    protected abstract OkHttpClient getHttpClient();
 
     /**
      * @return
@@ -64,26 +54,8 @@ public abstract class RequestClient {
         isUnitTest = unitTest;
     }
 
-    public RequestClient(Context context) {
+    public RequestClient() {
         this.isUnitTest = false;
-        this.context = context;
-        init();
-    }
-
-    private void init() {
-        OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
-        okHttpClientBuilder.connectTimeout(TIME_OUT, TimeUnit.SECONDS);
-        okHttpClientBuilder.writeTimeout(TIME_OUT, TimeUnit.SECONDS);
-        okHttpClientBuilder.readTimeout(TIME_OUT, TimeUnit.SECONDS);
-        okHttpClientBuilder.cookieJar(new CookierManager(context));
-        okHttpClientBuilder.followRedirects(true); //设置重定向 其实默认也是true
-        okHttpClientBuilder.hostnameVerifier(new HostnameVerifier() {
-            @Override
-            public boolean verify(String s, SSLSession sslSession) {
-                return true;
-            }
-        });
-        mOkHttpClient = okHttpClientBuilder.build();
     }
 
     /**
@@ -107,6 +79,7 @@ public abstract class RequestClient {
     private boolean checkModel(Object model, IAsyncMessageCallback callBack, Object userState) {
         try {
             VerifyManager.validate(model);
+
             return true;
         } catch (Exception err) {
             callBack.onError(new NetworkException(CodeContant.CODE_PARMER_ERROR, err.getMessage(), null, err), userState);
