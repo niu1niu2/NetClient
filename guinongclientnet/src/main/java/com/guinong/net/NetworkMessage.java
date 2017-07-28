@@ -1,7 +1,5 @@
 package com.guinong.net;
 
-import com.google.gson.Gson;
-
 import java.io.Serializable;
 
 /**

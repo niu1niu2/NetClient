@@ -13,9 +13,7 @@ import com.guinong.net.request.IAsyncRequestState;
 import com.guinong.net.verify.VerifyManager;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
@@ -61,7 +59,6 @@ public abstract class RequestClient {
         return mOkHttpClient;
     }
 
-    ;
 
     /**
      * @return

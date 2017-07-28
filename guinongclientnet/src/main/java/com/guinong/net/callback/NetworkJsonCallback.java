@@ -12,13 +12,8 @@ import com.guinong.net.NetworkErrorInfo;
 import com.guinong.net.NetworkException;
 import com.guinong.net.NetworkMessage;
 import com.guinong.net.NetworkResultMessage;
-import com.guinong.net.RequestClient;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 
 import okhttp3.Call;
 import okhttp3.Callback;
