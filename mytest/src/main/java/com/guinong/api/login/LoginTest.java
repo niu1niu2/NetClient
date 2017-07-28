@@ -1,9 +1,9 @@
-package com.guinong.net.test.model.api.login;
+package com.guinong.api.login;
 
+import com.guinong.AppLication;
 import com.guinong.net.NetworkException;
 import com.guinong.net.callback.IAsyncResultCallback;
 
-import org.junit.Test;
 
 /**
  * @author csn
@@ -11,13 +11,13 @@ import org.junit.Test;
  * @content
  */
 public class LoginTest {
-    LoginClient client = new LoginClient();
+    LoginClient client = new LoginClient(AppLication.context);
 
 
     /**
      * 测试登录
      */
-    @Test
+
     public void login() {
 
         LoginRequest request = new LoginRequest();
@@ -44,7 +44,7 @@ public class LoginTest {
         }
     }
 
-    @Test
+
     public void loginImageCode() {
         LoginImageCodeRequest phone = new LoginImageCodeRequest();
         phone.setPhone("18089697084");

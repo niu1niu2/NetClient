@@ -1,5 +1,7 @@
 package com.guinong.net;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.guinong.net.callback.AsyncEmptyCallbackHandle;
 import com.guinong.net.callback.AsyncResultCallbackHandle;
@@ -8,14 +10,13 @@ import com.guinong.net.callback.IAsyncEmptyCallback;
 import com.guinong.net.callback.IAsyncMessageCallback;
 import com.guinong.net.callback.IAsyncResultCallback;
 import com.guinong.net.callback.NetworkJsonCallback;
+import com.guinong.net.cookie.CookierManager;
 import com.guinong.net.request.AsyncRequestState;
 import com.guinong.net.request.IAsyncRequestState;
 import com.guinong.net.verify.VerifyManager;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
@@ -35,27 +36,12 @@ import okhttp3.RequestBody;
 public abstract class RequestClient {
     protected static OkHttpClient mOkHttpClient = null;
     private static final int TIME_OUT = 35;
-
-    static {
-        OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
-        okHttpClientBuilder.connectTimeout(TIME_OUT, TimeUnit.SECONDS);
-        okHttpClientBuilder.writeTimeout(TIME_OUT, TimeUnit.SECONDS);
-        okHttpClientBuilder.readTimeout(TIME_OUT, TimeUnit.SECONDS);
-        okHttpClientBuilder.followRedirects(true); //设置重定向 其实默认也是true
-        okHttpClientBuilder.hostnameVerifier(new HostnameVerifier() {
-            @Override
-            public boolean verify(String s, SSLSession sslSession) {
-                return true;
-            }
-        });
-        //  okHttpClientBuilder.sslSocketFactory(HttpsUtils.initSSLSocketFactory(), HttpsUtils.initTrustManager());
-        mOkHttpClient = okHttpClientBuilder.build();
-    }
-
+    private static Context context;
     /**
      *
      */
     public static final MediaType APPLICATION_JSON = MediaType.parse("application/json; charset=utf-8");
+
 
     protected OkHttpClient getHttpClient() {
         return mOkHttpClient;
@@ -78,10 +64,27 @@ public abstract class RequestClient {
         isUnitTest = unitTest;
     }
 
-    public RequestClient() {
+    public RequestClient(Context context) {
         this.isUnitTest = false;
+        this.context = context;
+        init();
     }
 
+    private void init() {
+        OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
+        okHttpClientBuilder.connectTimeout(TIME_OUT, TimeUnit.SECONDS);
+        okHttpClientBuilder.writeTimeout(TIME_OUT, TimeUnit.SECONDS);
+        okHttpClientBuilder.readTimeout(TIME_OUT, TimeUnit.SECONDS);
+        okHttpClientBuilder.cookieJar(new CookierManager(context));
+        okHttpClientBuilder.followRedirects(true); //设置重定向 其实默认也是true
+        okHttpClientBuilder.hostnameVerifier(new HostnameVerifier() {
+            @Override
+            public boolean verify(String s, SSLSession sslSession) {
+                return true;
+            }
+        });
+        mOkHttpClient = okHttpClientBuilder.build();
+    }
 
     /**
      * api 调用请求
@@ -126,7 +129,7 @@ public abstract class RequestClient {
     }
 
     private Request createPostRequest(Object model, String url, Gson gson) {
-        if(model != null){
+        if (model != null) {
             String json = gson.toJson(model);
             RequestBody body = RequestBody.create(APPLICATION_JSON, json);
             return new Request.Builder().url(url).post(body).build();
@@ -143,7 +146,7 @@ public abstract class RequestClient {
      * @return
      */
     private Request createGetRequest(Object model, String url, Gson gson) {
-        if(model != null){
+        if (model != null) {
             StringBuilder urlBuilder = new StringBuilder(url).append("?");
             Class modelclass = model.getClass();
             Field[] fields = modelclass.getDeclaredFields();
@@ -171,7 +174,7 @@ public abstract class RequestClient {
                 }
             }
             return new Request.Builder().url(urlBuilder.substring(0, urlBuilder.length())).get().build();
-        }else{
+        } else {
             return new Request.Builder().url(url).get().build();
         }
     }
@@ -180,8 +183,7 @@ public abstract class RequestClient {
      * @param url
      * @param callback
      * @param userState
-     * @return
-     * 无参无返回值post请求
+     * @return 无参无返回值post请求
      */
     protected IAsyncRequestState apiPostRequest(String url, final IAsyncEmptyCallback callback, Object userState) {
         ExceptionUtils.checkNotNull(url, "url");
@@ -197,8 +199,7 @@ public abstract class RequestClient {
      * @param callback
      * @param userState
      * @param <TResult>
-     * @return
-     *  无参带返回对象post请求
+     * @return 无参带返回对象post请求
      */
     protected <TResult> IAsyncRequestState apiPostRequest(final Class<TResult> resultClass, String url, final IAsyncResultCallback<TResult> callback, Object userState) {
         ExceptionUtils.checkNotNull(resultClass, "resultClass");
@@ -216,8 +217,7 @@ public abstract class RequestClient {
      * @param callback
      * @param userState
      * @param <TResult>
-     * @return
-     *  无参带返回数组post请求
+     * @return 无参带返回数组post请求
      */
     protected <TResult> IAsyncRequestState apiPostRequest(final Type resultType, String url, final IAsyncResultCallback<TResult> callback, Object userState) {
         ExceptionUtils.checkNotNull(resultType, "resultType");
@@ -233,10 +233,9 @@ public abstract class RequestClient {
      * @param model
      * @param callback
      * @param userState
-     * @return
-     *  有参无返回值post请求
+     * @return 有参无返回值post请求
      */
-    protected IAsyncRequestState apiPostRequest(String url,Object model, final IAsyncEmptyCallback callback, Object userState) {
+    protected IAsyncRequestState apiPostRequest(String url, Object model, final IAsyncEmptyCallback callback, Object userState) {
         ExceptionUtils.checkNotNull(url, "url");
         ExceptionUtils.checkNotNull(model, "model");
         ExceptionUtils.checkNotNull(callback, "callback");
@@ -255,8 +254,7 @@ public abstract class RequestClient {
      * @param callback
      * @param userState
      * @param <TResult>
-     * @return
-     *  有参带返回数组post请求
+     * @return 有参带返回数组post请求
      */
     protected <TResult> IAsyncRequestState apiPostRequest(final Type resultType, String url,
                                                           Object model, final IAsyncResultCallback<TResult> callback, Object userState) {
@@ -280,8 +278,7 @@ public abstract class RequestClient {
      * @param callback
      * @param userState
      * @param <TResult>
-     * @return
-     *  有参带返回对象post请求
+     * @return 有参带返回对象post请求
      */
     protected <TResult> IAsyncRequestState apiPostRequest(final Class<TResult> resultClass, String url,
                                                           Object model, final IAsyncResultCallback<TResult> callback, Object userState) {
@@ -304,8 +301,7 @@ public abstract class RequestClient {
      * @param callback
      * @param userState
      * @param <TResult>
-     * @return
-     * 有参带返回数组get请求
+     * @return 有参带返回数组get请求
      */
     protected <TResult> IAsyncRequestState apiGetRequest(final Type resultType, String url,
                                                          Object model, final IAsyncResultCallback<TResult> callback, Object userState) {
@@ -327,8 +323,7 @@ public abstract class RequestClient {
      * @param callback
      * @param userState
      * @param <TResult>
-     * @return
-     * 有参带返回对象get请求
+     * @return 有参带返回对象get请求
      */
     protected <TResult> IAsyncRequestState apiGetRequest(final Class<TResult> resultClass, String url,
                                                          Object model, final IAsyncResultCallback<TResult> callback, Object userState) {
@@ -350,8 +345,7 @@ public abstract class RequestClient {
      * @param model
      * @param callback
      * @param userState
-     * @return
-     *  有参无返回值get请求
+     * @return 有参无返回值get请求
      */
     protected IAsyncRequestState apiGetRequest(String url, Object model, final IAsyncEmptyCallback callback, Object userState) {
         ExceptionUtils.checkNotNull(url, "url");
@@ -371,8 +365,7 @@ public abstract class RequestClient {
      * @param callback
      * @param userState
      * @param <TResult>
-     * @return
-     *  无参带返回数组get请求
+     * @return 无参带返回数组get请求
      */
     protected <TResult> IAsyncRequestState apiGetRequest(final Type resultType, String url, final IAsyncResultCallback<TResult> callback, Object userState) {
         ExceptionUtils.checkNotNull(resultType, "resultType");
@@ -389,8 +382,7 @@ public abstract class RequestClient {
      * @param callback
      * @param userState
      * @param <TResult>
-     * @return
-     *  无参带返回对象get请求
+     * @return 无参带返回对象get请求
      */
     protected <TResult> IAsyncRequestState apiGetRequest(final Class<TResult> resultClass, String url, final IAsyncResultCallback<TResult> callback, Object userState) {
         ExceptionUtils.checkNotNull(resultClass, "resultClass");
@@ -405,8 +397,7 @@ public abstract class RequestClient {
      * @param url
      * @param callback
      * @param userState
-     * @return
-     * 无参无返回值get请求
+     * @return 无参无返回值get请求
      */
     protected IAsyncRequestState apiGetRequest(String url, final IAsyncEmptyCallback callback, Object userState) {
         ExceptionUtils.checkNotNull(url, "url");

@@ -1,4 +1,4 @@
-package com.guinong.net.test.model.api;
+package com.guinong.api.api;
 
 /**
  * @author csn

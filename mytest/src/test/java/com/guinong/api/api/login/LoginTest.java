@@ -1,7 +1,11 @@
-package com.guinong.net.test.model.api.login;
+package com.guinong.api.api.login;
 
 import com.guinong.net.NetworkException;
 import com.guinong.net.callback.IAsyncResultCallback;
+import com.guinong.net.test.model.api.login.LoginClient;
+import com.guinong.net.test.model.api.login.LoginImageCodeRequest;
+import com.guinong.net.test.model.api.login.LoginRequest;
+import com.guinong.net.test.model.api.login.LoginRespon;
 
 import org.junit.Test;
 

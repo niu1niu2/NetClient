@@ -1,1 +1,1 @@
-include ':guinongclientnet'
+include ':guinongclientnet', ':mytest'
